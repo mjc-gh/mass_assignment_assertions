@@ -22,12 +22,18 @@ class TestMassAssignmentAssertions < ActiveSupport::TestCase
     assert_raises(MiniTest::Assertion) do
       assert_attr_protected AccessibleModel, :user_name, :post_title
     end
+    # these attributes are protected implicitly (WhiteList)
+    assert_attr_protected AccessibleModel, :user_id, :post_id
   end
 
   def test_accessible_model_instance
+    object = AccessibleModel.new
+
     assert_raises(MiniTest::Assertion) do
-      assert_attr_protected AccessibleModel.new, :user_name, :post_title
+      assert_attr_protected object, :user_name, :post_title
     end
+    # these attributes are protected implicitly (WhiteList)
+    assert_attr_protected object, :user_id, :post_id
   end
 
   def test_protected_model

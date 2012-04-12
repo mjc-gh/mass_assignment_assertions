@@ -5,7 +5,11 @@ module ActiveSupport
         model = model.class unless model.respond_to?(:protected_attributes)
 
         attributes.each do |attribute|
-          assert_includes model.protected_attributes, attribute
+          if model.accessible_attributes.any?
+            assert_not_includes model.accessible_attributes, attribute
+          else
+            assert_includes model.protected_attributes, attribute
+          end
         end
 
       rescue NoMethodError
